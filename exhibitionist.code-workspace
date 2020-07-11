@@ -10,5 +10,7 @@
       "path": "hasura"
     }
   ],
-  "settings": {}
+  "settings": {
+    "cSpell.words": ["hasura"]
+  }
 }
