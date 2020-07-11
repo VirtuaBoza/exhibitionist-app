@@ -1,0 +1,15 @@
+{
+  "name": "exhibitionist-hasura",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "hasura": "hasura console --project hasura/",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "devDependencies": {
+    "hasura-cli": "^1.2.2"
+  },
+  "author": "",
+  "license": "ISC"
+}

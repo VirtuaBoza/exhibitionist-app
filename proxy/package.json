@@ -6,7 +6,6 @@
   "scripts": {
     "nodemon": "nodemon .",
     "build:watch": "tsc --watch",
-    "hasura": "hasura console --project hasura/",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -28,7 +27,6 @@
   "devDependencies": {
     "@types/express": "^4.17.7",
     "@types/node": "^14.0.22",
-    "hasura-cli": "^1.2.2",
     "nodemon": "^2.0.4",
     "prettier": "^2.0.5",
     "typescript": "^3.9.6"
