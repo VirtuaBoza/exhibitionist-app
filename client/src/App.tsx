@@ -1,8 +1,10 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { useAuth0 } from "@auth0/auth0-react";
+import React from "react";
+import "./App.css";
+import logo from "./logo.svg";
 
 function App() {
+  const { loginWithRedirect, isAuthenticated, logout, isLoading } = useAuth0();
   return (
     <div className="App">
       <header className="App-header">
@@ -18,6 +20,12 @@ function App() {
         >
           Learn React
         </a>
+        {!isLoading &&
+          (isAuthenticated ? (
+            <button onClick={() => logout()}>Log Out</button>
+          ) : (
+            <button onClick={() => loginWithRedirect()}>Log In</button>
+          ))}
       </header>
     </div>
   );
