@@ -2,29 +2,16 @@
 import { css, jsx } from "@emotion/core";
 import { ErrorMessage } from "@hookform/error-message";
 import * as React from "react";
+import Button from "./Button";
 
 const form = css`
-  max-width: 300px;
+  max-width: 500px;
   text-align: left;
-`;
-
-const formButton = css`
-  display: block;
-  background-color: #004cff;
-  color: #d3d3d3;
-  border: 2px solid #616161;
-  border-radius: 5px;
-  padding: 5px;
-  margin: 20px 0;
-  width: 100%;
-  &:disabled {
-    background-color: lightgray;
-    color: gray;
-  }
 `;
 
 const input = css`
   display: block;
+  width: 300px;
   padding: 5px;
   border: 2px solid #616161;
   border-radius: 5px;
@@ -46,9 +33,9 @@ const Form = (props: FormProps) => {
   return (
     <form css={form} onSubmit={onSubmit} {...rest}>
       {children}
-      <button disabled={!isValid} css={formButton} type="submit">
+      <Button fullWidth disabled={!isValid} type="submit">
         Submit
-      </button>
+      </Button>
     </form>
   );
 };

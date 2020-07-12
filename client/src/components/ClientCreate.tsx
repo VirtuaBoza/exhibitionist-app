@@ -32,8 +32,22 @@ const ClientCreate: React.FC<{}> = (props) => {
           <LabeledFormInput
             type="text"
             name="organization"
-            labelText="Organization"
+            labelText="Organization name"
             register={register({ required: "Organization name is required." })}
+            errors={errors}
+          />
+          <LabeledFormInput
+            type="text"
+            name="address1"
+            labelText="Street address"
+            register={register({ required: "Street address is required." })}
+            errors={errors}
+          />
+          <LabeledFormInput
+            type="text"
+            name="address2"
+            labelText="Suite #, etc. (not required)"
+            register={register}
             errors={errors}
           />
           <LabeledFormInput
@@ -60,12 +74,12 @@ const ClientCreate: React.FC<{}> = (props) => {
           <LabeledFormInput
             type="number"
             name="zip"
-            labelText="ZIP Code"
+            labelText="ZIP code"
             register={register({
-              required: "ZIP Code is required.",
+              required: "ZIP code is required.",
               pattern: {
                 value: /\d{5}/g,
-                message: "ZIP Code must be exactly 5 numerical digits.",
+                message: "ZIP code must be exactly 5 numerical digits.",
               },
             })}
             errors={errors}
