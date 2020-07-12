@@ -9,7 +9,14 @@ const tokenState = atom({
   default: localStorage.getItem(key),
 });
 
-export default function useAuth() {
+interface Auth {
+  isAuthenticated: boolean;
+  token: string | null;
+  setToken: (token: string) => void;
+  logOut: () => void;
+}
+
+export default function useAuth(): Auth {
   const [token, setTokenState] = useRecoilState(tokenState);
 
   const setToken = useCallback(
@@ -28,9 +35,10 @@ export default function useAuth() {
   const decodedToken = useMemo(() => token && jwtDecode(token), [token]) as any;
 
   return {
-    isAuthenticated:
-      decodedToken && decodedToken.exp * 1000 > new Date().getTime(),
-    token: tokenState,
+    isAuthenticated: Boolean(
+      decodedToken && decodedToken.exp * 1000 > new Date().getTime()
+    ),
+    token,
     setToken,
     logOut,
   };
