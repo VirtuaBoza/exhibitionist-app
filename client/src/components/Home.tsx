@@ -1,12 +1,7 @@
 import * as React from "react";
-import ClientCreate from "./ClientCreate";
 
 const Home: React.FC<{}> = (props) => {
-  return (
-    <div>
-      <ClientCreate />
-    </div>
-  );
+  return <div>Home</div>;
 };
 
 export default Home;
