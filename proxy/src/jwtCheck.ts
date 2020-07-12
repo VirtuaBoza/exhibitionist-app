@@ -8,7 +8,7 @@ const jwtCheck = jwt({
     jwksRequestsPerMinute: 5,
     jwksUri: "https://exhibitionist-dev.us.auth0.com/.well-known/jwks.json",
   }),
-  audience: "http://localhost:8000",
+  audience: process.env.AUTH0_CLIENT_ID,
   issuer: "https://exhibitionist-dev.us.auth0.com/",
   algorithms: ["RS256"],
 });
