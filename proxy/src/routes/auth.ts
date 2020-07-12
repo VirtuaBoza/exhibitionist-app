@@ -1,7 +1,6 @@
 import express from "express";
-import gql from "graphql-tag";
-import fetch from "node-fetch";
-import client from "../apolloClient";
+import { signInUser, signUpUser } from "../services/auth0";
+import { createClient, createUser } from "../services/db";
 
 const authRouter = express.Router();
 
@@ -14,21 +13,7 @@ authRouter.post("/register", async (req, res) => {
     res.status(400).send();
   } else {
     try {
-      const signUpResponse = await fetch(
-        "https://exhibitionist-dev.us.auth0.com/dbconnections/signup",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            email,
-            password,
-            client_id: process.env.AUTH0_CLIENT_ID,
-            connection: "Username-Password-Authentication",
-          }),
-        }
-      );
+      const signUpResponse = await signUpUser(email, password);
 
       const signUpResponseData = await signUpResponse.json();
 
@@ -37,21 +22,7 @@ authRouter.post("/register", async (req, res) => {
         res.json(signUpResponseData);
       } else {
         const { _id: userId } = signUpResponseData;
-        const signInResponse = await fetch(
-          "https://exhibitionist-dev.us.auth0.com/oauth/token",
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              grant_type: "password",
-              client_id: process.env.AUTH0_CLIENT_ID,
-              username: email,
-              password,
-            }),
-          }
-        );
+        const signInResponse = await signInUser(email, password);
 
         const signInResponseData = await signInResponse.json();
 
@@ -60,37 +31,10 @@ authRouter.post("/register", async (req, res) => {
           res.status(signInResponse.status);
           res.json(signInResponseData);
         } else {
-          const createClientResult = await client.mutate({
-            variables: { name },
-            mutation: gql`
-              mutation InsertClient($name: String!) {
-                insert_clients(objects: { name: $name }) {
-                  returning {
-                    id
-                    name
-                  }
-                }
-              }
-            `,
-          });
+          const org = await createClient(name);
+          const createUserSuccess = await createUser(userId, org.id);
 
-          const org = createClientResult.data.insert_clients.returning[0];
-
-          const createUserResult = await client.mutate({
-            variables: {
-              userId,
-              clientId: org.id,
-            },
-            mutation: gql`
-              mutation InsertUser($userId: String!, $clientId: uuid!) {
-                insert_users(objects: { id: $userId, client_id: $clientId }) {
-                  affected_rows
-                }
-              }
-            `,
-          });
-
-          if (createUserResult.data.insert_users.affected_rows) {
+          if (createUserSuccess) {
             res.json({ ...signInResponseData, org });
           } else {
             res.status(500).send();
