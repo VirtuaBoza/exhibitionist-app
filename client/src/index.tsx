@@ -1,19 +1,15 @@
-import { Auth0Provider } from "@auth0/auth0-react";
 import React from "react";
 import ReactDOM from "react-dom";
+import { RecoilRoot } from "recoil";
 import App from "./App";
 import "./index.css";
 import * as serviceWorker from "./serviceWorker";
 
 ReactDOM.render(
   <React.StrictMode>
-    <Auth0Provider
-      domain="exhibitionist-dev.us.auth0.com"
-      clientId="e0Z6mBSN2a75SY1vptfGFB4ewblXbxiR"
-      redirectUri={window.location.origin}
-    >
+    <RecoilRoot>
       <App />
-    </Auth0Provider>
+    </RecoilRoot>
   </React.StrictMode>,
   document.getElementById("root")
 );

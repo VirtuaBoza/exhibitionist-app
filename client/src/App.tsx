@@ -4,6 +4,7 @@ import ClientCreate from "./components/ClientCreate";
 import Home from "./components/Home";
 import Login from "./components/Login";
 import TopNav from "./components/TopNav";
+import UnauthenticatedOnlyRoute from "./components/UnauthenticatedOnlyRoute";
 import { routes } from "./constants";
 
 function App() {
@@ -14,9 +15,9 @@ function App() {
         <Route path={routes.ClientCreate}>
           <ClientCreate />
         </Route>
-        <Route path={routes.Login}>
+        <UnauthenticatedOnlyRoute path={routes.Login}>
           <Login />
-        </Route>
+        </UnauthenticatedOnlyRoute>
         <Route exact path={routes.Home}>
           <Home />
         </Route>
