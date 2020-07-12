@@ -11,6 +11,10 @@
     }
   ],
   "settings": {
-    "cSpell.words": ["hasura"]
+    "cSpell.words": [
+      "esnext",
+      "hasura",
+      "hookform"
+    ]
   }
 }
