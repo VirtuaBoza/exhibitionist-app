@@ -41,8 +41,12 @@ export interface FormProps extends React.ComponentProps<"form"> {
   onSubmit: any;
 }
 
-const Form = (props: FormProps) => {
-  const { isValid, onSubmit, children, ...rest } = props;
+const Form: React.FC<FormProps> = ({
+  isValid,
+  onSubmit,
+  children,
+  ...rest
+}) => {
   return (
     <form css={form} onSubmit={onSubmit} {...rest}>
       {children}
@@ -62,8 +66,14 @@ interface LabeledFormInputProps
   errors: any;
 }
 
-export const LabeledFormInput = (props: LabeledFormInputProps) => {
-  const { type, name, labelText, register, errors, ...rest } = props;
+export const LabeledFormInput: React.FC<LabeledFormInputProps> = ({
+  type,
+  name,
+  labelText,
+  register,
+  errors,
+  ...rest
+}) => {
   return (
     <div>
       <label htmlFor={name}>{labelText}</label>
