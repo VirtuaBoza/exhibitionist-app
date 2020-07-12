@@ -41,3 +41,23 @@ export async function createUser(
 
   return Boolean(createUserResult.data.insert_users.affected_rows);
 }
+
+export async function getUserClientData(
+  userId: string
+): Promise<{ id: string; name: string }> {
+  const getUserClientResult = await client.query({
+    variables: { userId },
+    query: gql`
+      query GetUserClient($userId: String!) {
+        users_by_pk(id: "5f0b690371468c0013001a77") {
+          client {
+            id
+            name
+          }
+        }
+      }
+    `,
+  });
+
+  return getUserClientResult.data.users_by_pk.client;
+}
