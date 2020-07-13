@@ -1,7 +1,7 @@
 import express from "express";
 import jwtDecode from "jwt-decode";
 import { signInUser, signUpUser } from "../services/auth0";
-import { createClient, createUser, getUserClientData } from "../services/db";
+import { createOrg, createUser, getUserOrgData } from "../services/db";
 
 const authRouter = express.Router();
 
@@ -32,7 +32,7 @@ authRouter.post("/register", async (req, res) => {
           res.status(signInResponse.status);
           res.json(signInResponseData);
         } else {
-          const org = await createClient(name);
+          const org = await createOrg(name);
           const createUserSuccess = await createUser(userId, org.id);
 
           if (createUserSuccess) {
@@ -61,7 +61,7 @@ authRouter.post("/login", async (req, res) => {
   } else {
     const token = jwtDecode(signInResponseData.id_token) as any;
     const userId = token.sub.replace("auth0|", "");
-    const org = await getUserClientData(userId);
+    const org = await getUserOrgData(userId);
     res.json({ ...signInResponseData, org });
   }
 });
