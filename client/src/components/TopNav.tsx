@@ -24,7 +24,8 @@ const TopNav: React.FunctionComponent<{}> = (props) => {
         {!isAuthenticated && (
           <>
             <TopNavLink to="/login" text="Login" />
-            <TopNavLink to="/new-client" text="Create New Organization" />
+            <TopNavLink to="/register-org" text="Register New Organization" />
+            <TopNavLink to="/register-user" text="Register New User" />
           </>
         )}
         {isAuthenticated && <button onClick={logOut}>Log Out</button>}
