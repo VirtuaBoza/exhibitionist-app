@@ -1,18 +1,27 @@
-import * as React from "react";
-import { selector } from "recoil";
-import fetchAssets from "../graphql/queries/fetchAssets";
-import orgState from "../state/orgState";
-
-export const assetsQuery = selector({
-  key: "assetsQuery",
-  get: ({ get }) => {
-    const org = get(orgState);
-    return org.id ? fetchAssets(org.id) : [];
-  },
-});
+import React, { useEffect } from "react";
+import { useAssets } from "../hooks";
 
 const Assets: React.FC<{}> = (props) => {
-  return <div>Assets</div>;
+  const { assets, isLoading, fetchAssets } = useAssets();
+
+  useEffect(() => {
+    fetchAssets();
+  }, [fetchAssets]);
+
+  return (
+    <div>
+      <h1>Assets</h1>
+      {isLoading ? (
+        <div>Loading...</div>
+      ) : (
+        <ul>
+          {assets.map((item) => (
+            <li key={item.id}>{item.title}</li>
+          ))}
+        </ul>
+      )}
+    </div>
+  );
 };
 
 export default Assets;

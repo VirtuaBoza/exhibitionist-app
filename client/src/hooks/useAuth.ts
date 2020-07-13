@@ -1,13 +1,13 @@
 import jwtDecode from "jwt-decode";
 import { useCallback, useMemo } from "react";
-import { atom, useRecoilState, useSetRecoilState } from "recoil";
+import { atom, useRecoilState } from "recoil";
 import { proxyUrl } from "../environment";
-import orgState from "../state/orgState";
+import useOrg from "./useOrg";
 
-export const key = "id_token";
+export const key = "tokenState";
 
 export const tokenState = atom({
-  key: "tokenState",
+  key,
   default: localStorage.getItem(key),
 });
 
@@ -34,7 +34,7 @@ export default function useAuth(): Auth {
   const [isAuthenticating, setIsAuthenticating] = useRecoilState(
     isAuthenticatingState
   );
-  const setOrg = useSetRecoilState(orgState);
+  const { org, setOrg } = useOrg();
 
   const setToken = useCallback(
     (newToken: string) => {
@@ -90,7 +90,7 @@ export default function useAuth(): Auth {
 
   return {
     isAuthenticated: Boolean(
-      decodedToken && decodedToken.exp * 1000 > new Date().getTime()
+      decodedToken && decodedToken.exp * 1000 > new Date().getTime() && org.id
     ),
     isAuthenticating,
     token,

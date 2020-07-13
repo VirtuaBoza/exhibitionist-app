@@ -1,7 +1,7 @@
 import gql from "graphql-tag";
 import client from "../apolloClient";
 
-export default async function fetchAssets(orgId: string) {
+export default async function getAssets(orgId: string) {
   const queryResult = await client.query({
     variables: { orgId },
     query: gql`
