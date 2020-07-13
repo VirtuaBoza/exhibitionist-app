@@ -1,6 +1,7 @@
 import { css } from "@emotion/core";
 import * as React from "react";
 import { Link } from "react-router-dom";
+import { routes } from "../constants";
 import { useAuth } from "../hooks";
 
 const topnav = css`
@@ -19,16 +20,24 @@ const TopNav: React.FunctionComponent<{}> = (props) => {
 
   return (
     <section id="header">
-      <div css={topnav} id="topnav">
+      <nav css={topnav} id="topnav">
         <TopNavLink to="/" text="Home" />
         {!isAuthenticated && (
           <>
-            <TopNavLink to="/login" text="Login" />
-            <TopNavLink to="/new-client" text="Create New Organization" />
+            <TopNavLink to={routes.Login} text="Login" />
+            <TopNavLink
+              to={routes.ClientCreate}
+              text="Create New Organization"
+            />
           </>
         )}
-        {isAuthenticated && <button onClick={logOut}>Log Out</button>}
-      </div>
+        {isAuthenticated && (
+          <>
+            <TopNavLink to={routes.Assets} text="Assets" />
+            <button onClick={logOut}>Log Out</button>
+          </>
+        )}
+      </nav>
     </section>
   );
 };

@@ -1,5 +1,7 @@
 import React from "react";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
+import Assets from "./components/Assets";
+import AuthenticatedRoute from "./components/AuthenticatedRoute";
 import ClientCreate from "./components/ClientCreate";
 import Home from "./components/Home";
 import Login from "./components/Login";
@@ -18,6 +20,9 @@ function App() {
         <UnauthenticatedOnlyRoute path={routes.Login}>
           <Login />
         </UnauthenticatedOnlyRoute>
+        <AuthenticatedRoute path={routes.Assets}>
+          <Assets />
+        </AuthenticatedRoute>
         <Route exact path={routes.Home}>
           <Home />
         </Route>
