@@ -14,7 +14,7 @@ const formContainer = css`
 
 const statesRegex = /^(?:(A[KLRZ]|C[AOT]|D[CE]|FL|GA|HI|I[ADLN]|K[SY]|LA|M[ADEINOST]|N[CDEHJMVY]|O[HKR]|P[AR]|RI|S[CD]|T[NX]|UT|V[AIT]|W[AIVY]))$/;
 
-const ClientCreate: React.FC<{}> = (props) => {
+const RegisterOrg: React.FC<{}> = (props) => {
   const { errors, formState, handleSubmit, register, reset } = useForm({
     mode: "onChange",
   });
@@ -89,4 +89,4 @@ const ClientCreate: React.FC<{}> = (props) => {
   );
 };
 
-export default ClientCreate;
+export default RegisterOrg;

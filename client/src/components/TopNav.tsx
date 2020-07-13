@@ -26,9 +26,10 @@ const TopNav: React.FunctionComponent<{}> = (props) => {
           <>
             <TopNavLink to={routes.Login} text="Login" />
             <TopNavLink
-              to={routes.ClientCreate}
-              text="Create New Organization"
+              to={routes.RegisterOrg}
+              text="Register New Organization"
             />
+            <TopNavLink to={routes.RegisterUser} text="Register New User" />
           </>
         )}
         {isAuthenticated && (
