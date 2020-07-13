@@ -12,5 +12,5 @@
     "hasura-cli": "^1.2.2"
   },
   "author": "",
-  "license": "ISC"
+  "license": "MIT"
 }
