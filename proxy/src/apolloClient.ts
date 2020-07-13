@@ -19,9 +19,9 @@ export default new ApolloClient({
     new HttpLink({
       uri: `${process.env.HASURA_URL}/v1/graphql`,
       fetch: fetch as any,
-      headers: {
-        "x-hasura-admin-secret": process.env.HASURA_GRAPHQL_ADMIN_SECRET,
-      },
+      // headers: {
+      //   "x-hasura-admin-secret": process.env.HASURA_GRAPHQL_ADMIN_SECRET,
+      // },
     }),
   ]),
   cache: new InMemoryCache(),

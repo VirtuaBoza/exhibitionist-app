@@ -1,8 +1,10 @@
 import { css } from "@emotion/core";
 import * as React from "react";
 import { Link } from "react-router-dom";
-import { routes } from "../constants";
-import { useAuth } from "../hooks";
+import { useRecoilCallback } from "recoil";
+import { routes } from "../../constants";
+import { useAuth } from "../../hooks";
+import { assetsQuery } from "../Assets";
 
 const topnav = css`
   width: 100vw;
@@ -17,6 +19,10 @@ const headerLink = css`
 
 const TopNav: React.FunctionComponent<{}> = (props) => {
   const { isAuthenticated, logOut } = useAuth();
+
+  const handleAssetLinkClick = useRecoilCallback(({ snapshot, set }) => () => {
+    snapshot.getLoadable(assetsQuery);
+  });
 
   return (
     <section id="header">
@@ -34,7 +40,11 @@ const TopNav: React.FunctionComponent<{}> = (props) => {
         )}
         {isAuthenticated && (
           <>
-            <TopNavLink to={routes.Assets} text="Assets" />
+            <TopNavLink
+              to={routes.Assets}
+              text="Assets"
+              onClick={handleAssetLinkClick}
+            />
             <button onClick={logOut}>Log Out</button>
           </>
         )}
@@ -43,12 +53,14 @@ const TopNav: React.FunctionComponent<{}> = (props) => {
   );
 };
 
-const TopNavLink: React.FunctionComponent<{ to: string; text: string }> = (
-  props
-) => {
+const TopNavLink: React.FunctionComponent<{
+  to: string;
+  text: string;
+  onClick?: () => any;
+}> = ({ to, text, onClick }) => {
   return (
-    <Link css={headerLink} to={props.to}>
-      {props.text}
+    <Link css={headerLink} to={to} onClick={onClick}>
+      {text}
     </Link>
   );
 };

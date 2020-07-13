@@ -1,7 +1,7 @@
 import { css } from "@emotion/core";
 import * as React from "react";
 import { useForm } from "react-hook-form";
-import Form, { LabeledFormInput } from "./Form";
+import Form, { LabeledFormInput } from "./shared/Form";
 
 const page = css`
   text-align: center;
