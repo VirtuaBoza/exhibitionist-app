@@ -1,42 +1,30 @@
 import * as React from "react";
 import { useForm } from "react-hook-form";
-import { useAuth } from "../hooks";
+import useAuth, { Credentials } from "../hooks/useAuth";
 
 const Login: React.FC<{}> = () => {
   const { register, handleSubmit } = useForm();
-  const { setToken } = useAuth();
-  function onSubmit(data: any) {
-    fetch("http://localhost:8000/auth/login", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
-    })
-      .then((res) => {
-        if (res.ok) return res.json();
-        throw res;
-      })
-      .then(({ id_token }) => {
-        setToken(id_token);
-      })
-      .catch((res) => {
-        console.log(res);
-      });
+  const { logIn, isAuthenticating } = useAuth();
+  function onSubmit(data: Credentials) {
+    logIn(data);
   }
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
+    <form onSubmit={handleSubmit<Credentials>(onSubmit)}>
       <input
         placeholder="email"
         name="email"
         ref={register({ required: true })}
+        disabled={isAuthenticating}
       />
       <input
         placeholder="password"
         name="password"
         ref={register({ required: true })}
+        disabled={isAuthenticating}
       />
-      <button type="submit">Submit</button>
+      <button type="submit" disabled={isAuthenticating}>
+        Submit
+      </button>
     </form>
   );
 };
