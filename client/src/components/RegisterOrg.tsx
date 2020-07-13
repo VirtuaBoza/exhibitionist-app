@@ -1,7 +1,7 @@
 import { css } from "@emotion/core";
 import React from "react";
 import { useForm } from "react-hook-form";
-import Form, { LabeledFormInput } from "./shared/Form";
+import Form, { LabeledTextInput } from "./shared/Form";
 
 const page = css`
   text-align: center;
@@ -25,38 +25,38 @@ const RegisterOrg: React.FC<{}> = (props) => {
   const { isValid } = formState;
   return (
     <div css={page}>
-      <h1>Create New Organization</h1>
+      <h1>Register A New Organization</h1>
       <div css={formContainer}>
         <Form onSubmit={handleSubmit(onSubmit)} isValid={isValid}>
-          <LabeledFormInput
+          <LabeledTextInput
             type="text"
             name="organization"
             labelText="Organization name"
             register={register({ required: "Organization name is required." })}
             errors={errors}
           />
-          <LabeledFormInput
+          <LabeledTextInput
             type="text"
             name="address1"
             labelText="Street address"
             register={register({ required: "Street address is required." })}
             errors={errors}
           />
-          <LabeledFormInput
+          <LabeledTextInput
             type="text"
             name="address2"
             labelText="Suite #, etc. (not required)"
             register={register}
             errors={errors}
           />
-          <LabeledFormInput
+          <LabeledTextInput
             type="text"
             name="city"
             labelText="City"
             register={register({ required: "City is required." })}
             errors={errors}
           />
-          <LabeledFormInput
+          <LabeledTextInput
             type="text"
             name="state"
             labelText="State"
@@ -70,7 +70,7 @@ const RegisterOrg: React.FC<{}> = (props) => {
             maxLength={2}
             errors={errors}
           />
-          <LabeledFormInput
+          <LabeledTextInput
             type="number"
             name="zip"
             labelText="ZIP code"

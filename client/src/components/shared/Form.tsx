@@ -43,7 +43,7 @@ const Form: React.FC<FormProps> = ({
   );
 };
 
-interface LabeledFormInputProps
+interface LabeledTextInputProps
   extends React.InputHTMLAttributes<HTMLInputElement> {
   type: string;
   name: string;
@@ -52,7 +52,7 @@ interface LabeledFormInputProps
   errors: any;
 }
 
-export const LabeledFormInput: React.FC<LabeledFormInputProps> = ({
+export const LabeledTextInput: React.FC<LabeledTextInputProps> = ({
   type,
   name,
   labelText,
