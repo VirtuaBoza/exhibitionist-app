@@ -1,5 +1,4 @@
-/** @jsx jsx */
-import { css, jsx } from "@emotion/core";
+import { css } from "@emotion/core";
 import { ErrorMessage } from "@hookform/error-message";
 import * as React from "react";
 import Button from "./Button";

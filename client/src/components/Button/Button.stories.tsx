@@ -1,6 +1,6 @@
-/** @jsx jsx */
-import { css, jsx } from "@emotion/core";
+import { css } from "@emotion/core";
 import { action } from "@storybook/addon-actions";
+import * as React from "react";
 import Button from "./Button";
 
 export default {

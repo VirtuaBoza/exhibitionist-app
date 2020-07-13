@@ -36,6 +36,7 @@
     ]
   },
   "devDependencies": {
+    "@abizzle/react-scripts": "^3.4.1",
     "@storybook/addon-actions": "^5.3.19",
     "@storybook/addon-links": "^5.3.19",
     "@storybook/addons": "^5.3.19",
@@ -52,7 +53,6 @@
     "@types/react-router": "^5.1.8",
     "@types/react-router-dom": "^5.1.5",
     "prettier": "^2.0.5",
-    "react-scripts": "3.4.1",
     "typescript": "~3.7.2"
   }
 }

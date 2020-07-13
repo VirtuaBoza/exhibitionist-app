@@ -1,5 +1,4 @@
-/** @jsx jsx */
-import { css, jsx } from "@emotion/core";
+import { css } from "@emotion/core";
 import * as React from "react";
 import { Link } from "react-router-dom";
 import { useAuth } from "../hooks";
@@ -22,9 +21,13 @@ const TopNav: React.FunctionComponent<{}> = (props) => {
     <section id="header">
       <div css={topnav} id="topnav">
         <TopNavLink to="/" text="Home" />
-        {!isAuthenticated && <TopNavLink to="/login" text="Login" />}
+        {!isAuthenticated && (
+          <>
+            <TopNavLink to="/login" text="Login" />
+            <TopNavLink to="/new-client" text="Create New Organization" />
+          </>
+        )}
         {isAuthenticated && <button onClick={logOut}>Log Out</button>}
-        <TopNavLink to="/new-client" text="Create New Organization" />
       </div>
     </section>
   );
