@@ -17,6 +17,7 @@ const Login: React.FC<{}> = () => {
         disabled={isAuthenticating}
       />
       <input
+        type="password"
         placeholder="password"
         name="password"
         ref={register({ required: true })}
