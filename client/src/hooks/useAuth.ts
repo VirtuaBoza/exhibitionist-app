@@ -74,7 +74,16 @@ export default function useAuth(): Auth {
     [setToken, setIsAuthenticating]
   );
 
-  const decodedToken = useMemo(() => token && jwtDecode(token), [token]) as any;
+  const decodedToken = useMemo(() => {
+    if (token) {
+      try {
+        return jwtDecode(token);
+      } catch {
+        return null;
+      }
+    }
+    return null;
+  }, [token]) as any;
 
   return {
     isAuthenticated: Boolean(
