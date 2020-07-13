@@ -9,7 +9,6 @@ import authRouter from "./routes/auth";
 const app = express();
 
 app.use(cors());
-app.use(bodyParser.json());
 
 app.use("/private", jwtCheck);
 app.use("/private", (err: any, req: any, res: any, next: any) => {
@@ -19,6 +18,8 @@ app.use("/private", (err: any, req: any, res: any, next: any) => {
 });
 
 app.use("/graphql", hasuraProxy);
+
+app.use("/auth", bodyParser.json());
 app.use("/auth", authRouter);
 
 const port = process.env.PORT || 8000;

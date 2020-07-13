@@ -1,1 +1,2 @@
-export const proxyUrl = "http://localhost:8000";
+export const proxyDomain = "localhost:8000";
+export const proxyUrl = `http://${proxyDomain}`;

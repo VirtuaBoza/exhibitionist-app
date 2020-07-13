@@ -1,13 +1,13 @@
 import React from "react";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import Assets from "./components/Assets";
-import AuthenticatedRoute from "./components/AuthenticatedRoute";
 import Home from "./components/Home";
+import TopNav from "./components/layout/TopNav";
 import Login from "./components/Login";
 import RegisterOrg from "./components/RegisterOrg";
 import RegisterUser from "./components/RegisterUser";
-import TopNav from "./components/TopNav";
-import UnauthenticatedOnlyRoute from "./components/UnauthenticatedOnlyRoute";
+import AuthenticatedRoute from "./components/routing/AuthenticatedRoute";
+import UnauthenticatedOnlyRoute from "./components/routing/UnauthenticatedOnlyRoute";
 import { routes } from "./constants";
 
 function App() {
