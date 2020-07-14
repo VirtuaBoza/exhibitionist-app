@@ -13,6 +13,7 @@ export default async function getAssets(orgId: string) {
             updated_at
             created_at
             description
+            image_url
             artist {
               id
               name

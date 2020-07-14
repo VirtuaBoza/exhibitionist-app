@@ -6,6 +6,7 @@ export default interface Asset {
   description: string;
   updated_at: any;
   created_at: any;
+  image_url?: string;
   artist_id?: string;
   artist?: Artist;
 }

@@ -1,4 +1,4 @@
-import { css } from "@emotion/core";
+import { css, SerializedStyles } from "@emotion/core";
 import { ErrorMessage } from "@hookform/error-message";
 import * as React from "react";
 import { useForm } from "react-hook-form";
@@ -26,12 +26,16 @@ const errorStyle = css`
 export interface FormProps<T> {
   defaultValues?: T;
   onSubmit: (data: T) => any;
+  css?: SerializedStyles;
+  disabled?: boolean;
 }
 
 const Form: React.FC<FormProps<any>> = ({
-  defaultValues = {},
+  defaultValues,
   onSubmit,
   children,
+  css: providedStyles,
+  disabled,
   ...rest
 }) => {
   const {
@@ -39,22 +43,30 @@ const Form: React.FC<FormProps<any>> = ({
     register,
     errors,
     watch,
-    formState: { isValid },
+    // formState: { isValid },
   } = useForm<any>({ defaultValues });
+
   return (
-    <form css={form} onSubmit={handleSubmit<any>(onSubmit)} {...rest}>
+    <form
+      css={[form, providedStyles]}
+      onSubmit={handleSubmit<any>(onSubmit)}
+      {...rest}
+    >
       {React.Children.map(children, (child) => {
         return (child as React.ReactElement).props.name
-          ? React.createElement((child as React.ReactElement).type, {
+          ? React.createElement((child as React.ReactElement).type || "text", {
               ...(child as React.ReactElement).props,
               register,
               errors,
               watch,
+              disabled:
+                (child as React.ReactElement).props.disabled || disabled,
               key: (child as React.ReactElement).props.name,
             })
           : child;
       })}
-      <Button fullWidth disabled={!isValid} type="submit">
+      {/* FIXME: removed isValid check as there's an issue */}
+      <Button fullWidth disabled={disabled} type="submit">
         Submit
       </Button>
     </form>
@@ -62,7 +74,7 @@ const Form: React.FC<FormProps<any>> = ({
 };
 
 interface LabeledTextInputProps {
-  type: string;
+  type?: string;
   name: string;
   labelText: string;
   required?: boolean | string;
@@ -75,10 +87,11 @@ interface LabeledTextInputProps {
   minLength?: number;
   validate?: (watch: any) => (input: string) => any;
   watch?: any;
+  disabled?: boolean;
 }
 
 export const LabeledTextInput: React.FC<LabeledTextInputProps> = ({
-  type,
+  type = "text",
   name,
   labelText,
   register,

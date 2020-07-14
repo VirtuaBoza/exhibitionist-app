@@ -16,7 +16,15 @@ const BrowseAssets: React.FC<{}> = (props) => {
       ) : (
         <ul>
           {assets.map((item) => (
-            <li key={item.id}>{item.title}</li>
+            <li key={item.id}>
+              {item.title}
+              {item.image_url && (
+                <img
+                  src={`${item.image_url}?tr=n-media_library_thumbnail`}
+                  alt={item.title}
+                />
+              )}
+            </li>
           ))}
         </ul>
       )}

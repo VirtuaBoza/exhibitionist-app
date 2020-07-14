@@ -10,7 +10,19 @@ const imageKit = new ImageKit({
 
 interface ImageKitHookValue {
   isLoading: boolean;
-  upload: (file: File) => Promise<unknown>;
+  upload: (file: File) => Promise<ImageKitUploadResult>;
+}
+
+interface ImageKitUploadResult {
+  fileId: string;
+  filePath: string;
+  fileType: string;
+  height: number;
+  name: string;
+  size: number;
+  thumbnailUrl: string;
+  url: string;
+  width: number;
 }
 
 export default function useImageKit(): ImageKitHookValue {
@@ -18,13 +30,13 @@ export default function useImageKit(): ImageKitHookValue {
 
   const upload = useCallback((file: File) => {
     setIsLoading(true);
-    return new Promise((resolve, reject) => {
+    return new Promise<ImageKitUploadResult>((resolve, reject) => {
       imageKit.upload(
         {
           file,
           fileName: file.name,
         },
-        (err: unknown, result: unknown) => {
+        (err: any, result: ImageKitUploadResult) => {
           if (err) reject(err);
           else {
             resolve(result);
