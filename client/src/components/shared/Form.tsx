@@ -1,6 +1,7 @@
 import { css } from "@emotion/core";
 import { ErrorMessage } from "@hookform/error-message";
 import * as React from "react";
+import { useForm } from "react-hook-form";
 import Button from "./Button";
 
 const form = css`
@@ -22,20 +23,37 @@ const errorStyle = css`
   color: red;
 `;
 
-export interface FormProps extends React.ComponentProps<"form"> {
-  isValid: boolean;
-  onSubmit: any;
+export interface FormProps<T> {
+  defaultValues?: T;
+  onSubmit: (data: T) => any;
 }
 
-const Form: React.FC<FormProps> = ({
-  isValid,
+const Form: React.FC<FormProps<any>> = ({
+  defaultValues = {},
   onSubmit,
   children,
   ...rest
 }) => {
+  const {
+    handleSubmit,
+    register,
+    errors,
+    watch,
+    formState: { isValid },
+  } = useForm<any>({ defaultValues });
   return (
-    <form css={form} onSubmit={onSubmit} {...rest}>
-      {children}
+    <form css={form} onSubmit={handleSubmit<any>(onSubmit)} {...rest}>
+      {React.Children.map(children, (child) => {
+        return (child as React.ReactElement).props.name
+          ? React.createElement((child as React.ReactElement).type, {
+              ...(child as React.ReactElement).props,
+              register,
+              errors,
+              watch,
+              key: (child as React.ReactElement).props.name,
+            })
+          : child;
+      })}
       <Button fullWidth disabled={!isValid} type="submit">
         Submit
       </Button>
@@ -43,13 +61,20 @@ const Form: React.FC<FormProps> = ({
   );
 };
 
-interface LabeledTextInputProps
-  extends React.InputHTMLAttributes<HTMLInputElement> {
+interface LabeledTextInputProps {
   type: string;
   name: string;
   labelText: string;
-  register: any;
-  errors: any;
+  required?: boolean | string;
+  register?: any;
+  errors?: any;
+  pattern?: {
+    value: string | RegExp;
+    message: string;
+  };
+  minLength?: number;
+  validate?: (watch: any) => (input: string) => any;
+  watch?: any;
 }
 
 export const LabeledTextInput: React.FC<LabeledTextInputProps> = ({
@@ -58,12 +83,29 @@ export const LabeledTextInput: React.FC<LabeledTextInputProps> = ({
   labelText,
   register,
   errors,
+  required,
+  pattern,
+  validate,
+  watch,
   ...rest
 }) => {
   return (
     <div>
-      <label htmlFor={name}>{labelText}</label>
-      <input css={input} type={type} name={name} ref={register} {...rest} />
+      <label htmlFor={name}>
+        {labelText}
+        {required ? " *" : ""}
+      </label>
+      <input
+        css={input}
+        type={type}
+        name={name}
+        ref={register({
+          required,
+          pattern,
+          validate: validate ? validate(watch) : undefined,
+        })}
+        {...rest}
+      />
       <ErrorMessage css={errorStyle} as="p" errors={errors} name={name} />
     </div>
   );

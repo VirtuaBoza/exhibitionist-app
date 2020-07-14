@@ -1,6 +1,5 @@
 import { css } from "@emotion/core";
 import * as React from "react";
-import { useForm } from "react-hook-form";
 import Form, { LabeledTextInput } from "./shared/Form";
 
 const page = css`
@@ -15,48 +14,35 @@ const formContainer = css`
 const RegisterUser: React.FC<{}> = () => {
   const [isShowingPassword, setIsShowingPassword] = React.useState(false);
 
-  const { errors, formState, handleSubmit, register, reset, watch } = useForm({
-    mode: "onChange",
-  });
-  const { isValid } = formState;
-
   const onSubmit = (data: any) => {
     console.log(data);
-    reset({});
   };
 
   return (
     <div css={page}>
       <h1>Register A New User</h1>
       <div css={formContainer}>
-        <Form onSubmit={handleSubmit(onSubmit)} isValid={isValid}>
+        <Form onSubmit={onSubmit}>
           <LabeledTextInput
             type="text"
             name="username"
             labelText="Username"
-            register={register({ required: "Username is required" })}
+            required="Username is required"
             minLength={2}
-            errors={errors}
           />
           <LabeledTextInput
             type={isShowingPassword ? "text" : "password"}
             name="password"
             labelText="Password (must be minimum 8 characters)"
-            register={register({
-              required: "Password is required",
-              minLength: 8,
-            })}
-            errors={errors}
+            required="Password is required"
+            minLength={8}
           />
           <LabeledTextInput
             type={isShowingPassword ? "text" : "password"}
             name="password-confirm"
             labelText="Confirm Password"
-            register={register({
-              validate: (value) =>
-                value === watch("password") || "Passwords must match!",
-            })}
-            errors={errors}
+            validate={(watch) => (value) =>
+              value === watch("password") || "Passwords must match!"}
           />
           <input
             css={css`
