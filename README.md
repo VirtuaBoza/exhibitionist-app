@@ -4,7 +4,7 @@ An open source asset tracking application used by museums, art galleries, and ot
 
 ## Contributing
 
-You will need `npm` and `docker`.
+You will need `node` and `docker`.
 
 ### Client setup:
 
@@ -69,6 +69,13 @@ In a separate terminal, apply any migrations:
 ```bash
 # /exhibitionist-app/hasura
 npm run migrate
+```
+
+Open the hasura console and "Track All" tables and relationships:
+
+```bash
+# /exhibitionist-app/hasura
+npm run console
 ```
 
 ## Authors
