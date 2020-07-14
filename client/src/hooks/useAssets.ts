@@ -1,5 +1,6 @@
 import { useCallback } from "react";
 import { atom, useRecoilState } from "recoil";
+import insertAsset from "../graphql/mutations/insertAsset";
 import getAssets from "../graphql/queries/getAssets";
 import Asset from "../models/asset.model";
 import useOrg from "./useOrg";
@@ -17,7 +18,8 @@ const assetsState = atom<Asset[]>({
 interface AssetsHookValue {
   isLoading: boolean;
   assets: Asset[];
-  fetchAssets: () => void;
+  fetchAssets: () => Promise<void>;
+  createAsset: (asset: Asset) => Promise<void>;
 }
 
 export default function useAssets(): AssetsHookValue {
@@ -25,22 +27,31 @@ export default function useAssets(): AssetsHookValue {
   const [assets, setAssets] = useRecoilState(assetsState);
   const { org } = useOrg();
 
-  const fetchAssets = useCallback(async () => {
-    if (org.id) {
-      setIsLoading(true);
-      getAssets(org.id)
-        .then((res) => {
-          setAssets(res);
-        })
-        .finally(() => {
-          setIsLoading(false);
-        });
-    }
+  const fetchAssets = useCallback(() => {
+    setIsLoading(true);
+    return getAssets(org.id!)
+      .then((res) => {
+        setAssets(res);
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
   }, [setAssets, org.id, setIsLoading]);
+
+  const createAsset = useCallback(
+    (asset: Asset) => {
+      setIsLoading(true);
+      return insertAsset(asset, org.id!).finally(() => {
+        setIsLoading(false);
+      });
+    },
+    [org.id, setIsLoading]
+  );
 
   return {
     isLoading,
     assets,
     fetchAssets,
+    createAsset,
   };
 }

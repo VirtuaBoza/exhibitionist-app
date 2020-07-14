@@ -1,6 +1,6 @@
 import { css } from "@emotion/core";
 import * as React from "react";
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { routes } from "../../constants";
 import { useAuth } from "../../hooks";
 
@@ -35,6 +35,7 @@ const TopNav: React.FunctionComponent<{}> = (props) => {
         {isAuthenticated && (
           <>
             <TopNavLink to={routes.Assets} text="Assets" />
+            <TopNavLink to={routes.AddAsset} text="Add Asset" />
             <button onClick={logOut}>Log Out</button>
           </>
         )}
@@ -49,9 +50,9 @@ const TopNavLink: React.FunctionComponent<{
   onClick?: () => any;
 }> = ({ to, text, onClick }) => {
   return (
-    <Link css={headerLink} to={to} onClick={onClick}>
+    <NavLink css={headerLink} to={to} onClick={onClick}>
       {text}
-    </Link>
+    </NavLink>
   );
 };
 
