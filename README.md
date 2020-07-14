@@ -1,6 +1,6 @@
 # Exhibitionist
 
-An open source asset tracking application used by museums, art galleries, and other public collections.
+An open source asset tracking application for use by museums, art galleries, and other public collections.
 
 ## Contributing
 
