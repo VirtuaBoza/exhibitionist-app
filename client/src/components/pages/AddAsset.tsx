@@ -1,7 +1,7 @@
 import React, { useRef } from "react";
-import { useAssets, useImageKit } from "../hooks";
-import Asset from "../models/asset.model";
-import Form, { LabeledTextInput } from "./shared/Form";
+import { useAssets, useImageKit } from "../../hooks";
+import Asset from "../../models/asset.model";
+import Form, { LabeledTextInput } from "../shared/Form";
 
 const AddAsset: React.FC<{}> = (props) => {
   const { createAsset, isLoading: isSavingAsset } = useAssets();

@@ -1,6 +1,6 @@
 import * as React from "react";
 import { useForm } from "react-hook-form";
-import useAuth, { Credentials } from "../hooks/useAuth";
+import useAuth, { Credentials } from "../../hooks/useAuth";
 
 const Login: React.FC<{}> = () => {
   const { register, handleSubmit } = useForm();

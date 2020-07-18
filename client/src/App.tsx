@@ -1,13 +1,17 @@
 import React from "react";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
-import Assets from "./components/Assets";
-import Home from "./components/Home";
 import TopNav from "./components/layout/TopNav";
-import Login from "./components/Login";
-import RegisterOrg from "./components/RegisterOrg";
-import RegisterUser from "./components/RegisterUser";
-import AuthenticatedRoute from "./components/routing/AuthenticatedRoute";
-import UnauthenticatedOnlyRoute from "./components/routing/UnauthenticatedOnlyRoute";
+import {
+  Assets,
+  Home,
+  Login,
+  RegisterOrg,
+  RegisterUser,
+} from "./components/pages";
+import {
+  AuthenticatedRoute,
+  UnauthenticatedOnlyRoute,
+} from "./components/routing";
 import { routes } from "./constants";
 
 function App() {

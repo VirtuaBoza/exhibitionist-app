@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { useAssets } from "../hooks";
+import { useAssets } from "../../hooks";
 
 const BrowseAssets: React.FC<{}> = (props) => {
   const { assets, isLoading, fetchAssets } = useAssets();

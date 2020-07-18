@@ -1,6 +1,6 @@
 import React from "react";
 import { Route, Switch } from "react-router-dom";
-import { routes } from "../constants";
+import { routes } from "../../constants";
 import AddAsset from "./AddAsset";
 import BrowseAssets from "./BrowseAssets";
 
