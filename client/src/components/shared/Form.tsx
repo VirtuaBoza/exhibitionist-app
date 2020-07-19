@@ -59,9 +59,12 @@ export const FormInput: React.FC<FormInputProps> = ({
   required,
   pattern,
   validate,
+  disabled,
   ...rest
 }) => {
-  const { register, watch, errors } = useContext(FormContext);
+  const { register, watch, errors, disabled: formDisabled } = useContext(
+    FormContext
+  );
 
   return (
     <Input
@@ -78,6 +81,7 @@ export const FormInput: React.FC<FormInputProps> = ({
         validate: validate ? validate(watch) : undefined,
       })}
       required={required}
+      disabled={Boolean(disabled || formDisabled)}
     />
   );
 };

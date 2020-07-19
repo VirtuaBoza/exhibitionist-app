@@ -10,11 +10,21 @@ export interface InputProps {
   type?: string;
   autoComplete?: string;
   id?: string;
+  disabled?: boolean;
 }
 
 const Input = React.forwardRef<HTMLInputElement, InputProps>(
   (
-    { name, label, required, error, autoComplete, type = "text", id = uuid() },
+    {
+      name,
+      label,
+      required,
+      error,
+      autoComplete,
+      disabled,
+      type = "text",
+      id = uuid(),
+    },
     ref
   ) => {
     const [showPassword, setShowPassword] = useState(false);
@@ -44,6 +54,8 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
             name={name}
             type={type === "password" && showPassword ? "text" : type}
             autoComplete={autoComplete}
+            disabled={disabled}
+            required={Boolean(required)}
           />
           {/* TODO: make pretty */}
           {type === "password" && (
