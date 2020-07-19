@@ -4,53 +4,38 @@ import { NavLink } from "react-router-dom";
 import { routes } from "../../constants";
 import { useAuth } from "../../hooks";
 
-const topnav = css`
+const topNavStyles = css`
   width: 100vw;
   height: 50px;
 `;
 
-const headerLink = css`
+const navLinkStyles = css`
   margin: 10px;
   text-decoration-line: none;
   box-shadow: 0 2px 0 #d3d3d3;
 `;
 
-const TopNav: React.FunctionComponent<{}> = (props) => {
-  const { isAuthenticated, logOut } = useAuth();
+const TopNav: React.FC<{}> = (props) => {
+  const { logOut } = useAuth();
 
   return (
-    <section id="header">
-      <nav css={topnav} id="topnav">
+    <header>
+      <nav css={topNavStyles}>
         <TopNavLink to="/" text="Home" />
-        {!isAuthenticated && (
-          <>
-            <TopNavLink to={routes.Login} text="Login" />
-            <TopNavLink
-              to={routes.RegisterOrg}
-              text="Register New Organization"
-            />
-            <TopNavLink to={routes.RegisterUser} text="Register New User" />
-          </>
-        )}
-        {isAuthenticated && (
-          <>
-            <TopNavLink to={routes.Assets} text="Assets" />
-            <TopNavLink to={routes.AddAsset} text="Add Asset" />
-            <button onClick={logOut}>Log Out</button>
-          </>
-        )}
+        <TopNavLink to={routes.Assets} text="Assets" />
+        <TopNavLink to={routes.AddAsset} text="Add Asset" />
+        <button onClick={logOut}>Log Out</button>
       </nav>
-    </section>
+    </header>
   );
 };
 
-const TopNavLink: React.FunctionComponent<{
+const TopNavLink: React.FC<{
   to: string;
   text: string;
-  onClick?: () => any;
-}> = ({ to, text, onClick }) => {
+}> = ({ to, text }) => {
   return (
-    <NavLink css={headerLink} to={to} onClick={onClick}>
+    <NavLink css={navLinkStyles} to={to}>
       {text}
     </NavLink>
   );

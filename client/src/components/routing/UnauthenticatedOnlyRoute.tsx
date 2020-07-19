@@ -6,7 +6,7 @@ import { useAuth } from "../../hooks";
 const UnauthenticatedOnlyRoute: React.FC<RouteProps> = ({ ...props }) => {
   const { isAuthenticated } = useAuth();
   if (isAuthenticated) {
-    return <Redirect to={routes.Home} />;
+    return <Redirect to={routes.Root} />;
   } else {
     return <Route {...props} />;
   }

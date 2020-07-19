@@ -16,6 +16,11 @@ const isAuthenticatingState = atom({
   default: false,
 });
 
+const authenticationErrorState = atom({
+  key: "authenticationErrorState",
+  default: "",
+});
+
 export interface Credentials {
   email: string;
   password: string;
@@ -24,6 +29,7 @@ export interface Credentials {
 export interface Auth {
   isAuthenticated: boolean;
   isAuthenticating: boolean;
+  authenticationError: string;
   token: string | null;
   logOut: () => void;
   logIn: (credentials: Credentials) => Promise<void>;
@@ -33,6 +39,9 @@ export default function useAuth(): Auth {
   const [token, setTokenState] = useRecoilState(tokenState);
   const [isAuthenticating, setIsAuthenticating] = useRecoilState(
     isAuthenticatingState
+  );
+  const [authenticationError, setAuthenticationError] = useRecoilState(
+    authenticationErrorState
   );
   const { org, setOrg } = useOrg();
 
@@ -52,6 +61,7 @@ export default function useAuth(): Auth {
   const logIn = useCallback(
     (credentials: Credentials) => {
       setIsAuthenticating(true);
+      setAuthenticationError("");
       return fetch(`${proxyUrl}/auth/login`, {
         method: "POST",
         headers: {
@@ -59,22 +69,24 @@ export default function useAuth(): Auth {
         },
         body: JSON.stringify(credentials),
       })
-        .then((res) => {
+        .then(async (res) => {
           if (res.ok) return res.json();
-          throw res;
+          throw await res.json();
         })
         .then(({ id_token, org }) => {
           setToken(id_token);
           setOrg(org);
         })
-        .catch((res) => {
-          console.log(res);
+        .catch(({ error_description }) => {
+          setAuthenticationError(
+            error_description || "There was a problem authenticating."
+          );
         })
         .finally(() => {
           setIsAuthenticating(false);
         });
     },
-    [setToken, setIsAuthenticating, setOrg]
+    [setToken, setIsAuthenticating, setOrg, setAuthenticationError]
   );
 
   const decodedToken = useMemo(() => {
@@ -93,6 +105,7 @@ export default function useAuth(): Auth {
       decodedToken && decodedToken.exp * 1000 > new Date().getTime() && org.id
     ),
     isAuthenticating,
+    authenticationError,
     token,
     logOut,
     logIn,

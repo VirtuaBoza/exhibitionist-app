@@ -1,7 +1,7 @@
 import React, { useRef } from "react";
 import { useAssets, useImageKit } from "../../hooks";
 import Asset from "../../models/asset.model";
-import Form, { LabeledTextInput } from "../shared/Form";
+import Form, { FormInput } from "../shared/Form";
 
 const AddAsset: React.FC<{}> = (props) => {
   const { createAsset, isLoading: isSavingAsset } = useAssets();
@@ -23,8 +23,8 @@ const AddAsset: React.FC<{}> = (props) => {
     <>
       <h1>Add Asset</h1>
       <Form onSubmit={onSubmit} disabled={isSavingAsset || isUploadingImage}>
-        <LabeledTextInput labelText="Title" name="title" />
-        <LabeledTextInput labelText="Description" name="description" />
+        <FormInput label="Title" name="title" />
+        <FormInput label="Description" name="description" />
         <input type="file" ref={fileRef} />
       </Form>
     </>

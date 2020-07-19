@@ -1,49 +1,45 @@
 import { css } from "@emotion/core";
 import React from "react";
-import Form, { LabeledTextInput } from "../shared/Form";
-
-const page = css`
-  text-align: center;
-`;
-
-const formContainer = css`
-  display: flex;
-  justify-content: center;
-`;
+import Form, { FormInput } from "../shared/Form";
 
 // const statesRegex = /^(?:(A[KLRZ]|C[AOT]|D[CE]|FL|GA|HI|I[ADLN]|K[SY]|LA|M[ADEINOST]|N[CDEHJMVY]|O[HKR]|P[AR]|RI|S[CD]|T[NX]|UT|V[AIT]|W[AIVY]))$/;
 
-const RegisterOrg: React.FC<{}> = (props) => {
+const EditOrg: React.FC<{}> = (props) => {
   const onSubmit = (data: any) => {
     console.log(data);
   };
   return (
-    <div css={page}>
+    <div
+      css={css`
+        text-align: center;
+      `}
+    >
       <h1>Register A New Organization</h1>
-      <div css={formContainer}>
+      <div
+        css={css`
+          display: flex;
+          justify-content: center;
+        `}
+      >
         <Form onSubmit={onSubmit}>
-          <LabeledTextInput
+          <FormInput
             type="text"
             name="organization"
-            labelText="Organization name"
+            label="Organization name"
             required="Organization name is required."
           />
-          <LabeledTextInput
+          <FormInput
             type="text"
             name="address1"
-            labelText="Street address"
+            label="Street address"
             required="Street address is required."
           />
-          <LabeledTextInput
-            type="text"
-            name="address2"
-            labelText="Suite #, etc."
-          />
-          <LabeledTextInput
+          <FormInput type="text" name="address2" label="Suite #, etc." />
+          <FormInput
             type="text"
             name="city"
-            labelText="City"
-            register="City is required."
+            label="City"
+            required="City is required."
           />
           {/* If we're only allowing certain values, let's make this a select or autocomplete */}
           {/* <LabeledTextInput
@@ -59,10 +55,10 @@ const RegisterOrg: React.FC<{}> = (props) => {
             })}
             maxLength={2}
           /> */}
-          <LabeledTextInput
+          <FormInput
             type="number"
             name="zip"
-            labelText="ZIP code"
+            label="ZIP code"
             required="ZIP code is required."
             pattern={{
               value: /\d{5}/g,
@@ -75,4 +71,4 @@ const RegisterOrg: React.FC<{}> = (props) => {
   );
 };
 
-export default RegisterOrg;
+export default EditOrg;

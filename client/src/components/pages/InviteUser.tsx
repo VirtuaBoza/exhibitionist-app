@@ -1,17 +1,8 @@
 import { css } from "@emotion/core";
 import * as React from "react";
-import Form, { LabeledTextInput } from "../shared/Form";
+import Form, { FormInput } from "../shared/Form";
 
-const page = css`
-  text-align: center;
-`;
-
-const formContainer = css`
-  display: flex;
-  justify-content: center;
-`;
-
-const RegisterUser: React.FC<{}> = () => {
+const InviteUser: React.FC<{}> = () => {
   const [isShowingPassword, setIsShowingPassword] = React.useState(false);
 
   const onSubmit = (data: any) => {
@@ -19,28 +10,37 @@ const RegisterUser: React.FC<{}> = () => {
   };
 
   return (
-    <div css={page}>
+    <div
+      css={css`
+        text-align: center;
+      `}
+    >
       <h1>Register A New User</h1>
-      <div css={formContainer}>
+      <div
+        css={css`
+          display: flex;
+          justify-content: center;
+        `}
+      >
         <Form onSubmit={onSubmit}>
-          <LabeledTextInput
+          <FormInput
             type="text"
             name="username"
-            labelText="Username"
+            label="Username"
             required="Username is required"
             minLength={2}
           />
-          <LabeledTextInput
+          <FormInput
             type={isShowingPassword ? "text" : "password"}
             name="password"
-            labelText="Password (must be minimum 8 characters)"
+            label="Password (must be minimum 8 characters)"
             required="Password is required"
             minLength={8}
           />
-          <LabeledTextInput
+          <FormInput
             type={isShowingPassword ? "text" : "password"}
             name="password-confirm"
-            labelText="Confirm Password"
+            label="Confirm Password"
             validate={(watch) => (value) =>
               value === watch("password") || "Passwords must match!"}
           />
@@ -62,4 +62,4 @@ const RegisterUser: React.FC<{}> = () => {
   );
 };
 
-export default RegisterUser;
+export default InviteUser;

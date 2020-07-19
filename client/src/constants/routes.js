@@ -1,6 +1,5 @@
-export const Home = "/";
-export const Login = "/login";
+export const Root = "/";
 export const Assets = "/assets";
 export const AddAsset = `${Assets}/add`;
-export const RegisterOrg = "/register-org";
-export const RegisterUser = "/register-user";
+export const RegisterOrg = "/admin/org";
+export const RegisterUser = "/admin/invite-user";

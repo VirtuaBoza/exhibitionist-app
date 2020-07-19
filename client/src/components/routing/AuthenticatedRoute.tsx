@@ -9,7 +9,7 @@ const AuthenticatedRoute: React.FC<RouteProps> = (props) => {
   if (isAuthenticated) {
     return <Route {...props} />;
   } else {
-    return <Redirect to={routes.Login} />;
+    return <Redirect to={routes.Root} />;
   }
 };
 
