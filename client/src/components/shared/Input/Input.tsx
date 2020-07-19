@@ -1,5 +1,6 @@
 import { css } from "@emotion/core";
-import React from "react";
+import React, { useState } from "react";
+import { v4 as uuid } from "uuid";
 
 export interface InputProps {
   name: string;
@@ -7,10 +8,17 @@ export interface InputProps {
   required?: boolean | string;
   error?: any;
   type?: string;
+  autoComplete?: string;
+  id?: string;
 }
 
 const Input = React.forwardRef<HTMLInputElement, InputProps>(
-  ({ name, label, required, error, type = "text" }, ref) => {
+  (
+    { name, label, required, error, autoComplete, type = "text", id = uuid() },
+    ref
+  ) => {
+    const [showPassword, setShowPassword] = useState(false);
+
     return (
       <div
         css={css`
@@ -18,11 +26,50 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
           flex-direction: column;
         `}
       >
-        <label htmlFor={`${name}-input`}>
+        <label htmlFor={id}>
           {label}
           {required ? " *" : ""}
         </label>
-        <input id={`${name}-input`} ref={ref} name={name} type={type} />
+        <div
+          css={css`
+            display: flex;
+          `}
+        >
+          <input
+            id={id}
+            css={css`
+              flex-grow: 1;
+            `}
+            ref={ref}
+            name={name}
+            type={type === "password" && showPassword ? "text" : type}
+            autoComplete={autoComplete}
+          />
+          {/* TODO: make pretty */}
+          {type === "password" && (
+            <div
+              css={css`
+                display: flex;
+                align-items: center;
+              `}
+            >
+              <input
+                id={`${id}-show`}
+                type="checkbox"
+                checked={showPassword}
+                onChange={() => setShowPassword(!showPassword)}
+              />
+              <label
+                htmlFor={`${id}-show`}
+                css={css`
+                  user-select: none;
+                `}
+              >
+                Show
+              </label>
+            </div>
+          )}
+        </div>
         <p
           css={css`
             min-height: 1.25rem;
