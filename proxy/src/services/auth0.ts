@@ -31,7 +31,28 @@ export function signInUser(email: string, password: string) {
 }
 
 export async function checkUserExists(email: string): Promise<boolean> {
-  console.log("hi");
+  const token = await getManagementApiToken();
+
+  const res = await fetch(
+    `${
+      process.env.AUTH0_URL
+    }/api/v2/users-by-email?email=${email.toLocaleLowerCase()}`,
+    {
+      headers: {
+        "Content-Type": "application/json",
+        authorization: `Bearer ${token}`,
+      },
+    }
+  );
+
+  if (!res.ok) throw res;
+
+  const body = await res.json();
+
+  return body.length;
+}
+
+async function getManagementApiToken() {
   const tokenData = await fetch(`${process.env.AUTH0_URL}/oauth/token`, {
     method: "POST",
     headers: {
@@ -43,33 +64,10 @@ export async function checkUserExists(email: string): Promise<boolean> {
       client_secret: process.env.AUTH0_PROXY_CLIENT_SECRET,
       audience: `${process.env.AUTH0_URL}/api/v2/`,
     }),
-  })
-    .then((res) => {
-      console.log(res);
-      return res.json();
-    })
-    .catch((err) => {
-      console.log(err);
-      throw err;
-    });
+  }).then((res) => {
+    if (!res.ok) throw res;
+    return res.json();
+  });
 
-  console.log("hello");
-
-  const res = await fetch(
-    `${
-      process.env.AUTH0_URL
-    }/api/v2/users-by-email?email=${email.toLocaleLowerCase()}`,
-    {
-      headers: {
-        "Content-Type": "application/json",
-        authorization: `Bearer ${tokenData.access_token}`,
-      },
-    }
-  );
-
-  if (!res.ok) throw res;
-
-  const body = await res.json();
-
-  return body.length;
+  return tokenData.access_token;
 }
