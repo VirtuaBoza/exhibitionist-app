@@ -1,7 +1,7 @@
 import { css } from "@emotion/core";
 import React from "react";
 import { useAuth, useTabs } from "../../hooks";
-import Form, { FormInput, FormSubmitButton } from "../shared/Form";
+import Form, { FormSubmitButton } from "../shared/Form";
 import { H2 } from "../shared/Headings";
 
 const tabs = [
@@ -142,18 +142,22 @@ function LoginForm() {
     <>
       <H2 css={headerStyles}>Login</H2>
       <Form onSubmit={handleSubmit} disabled={isAuthenticating}>
-        <FormInput
+        <Form.Input
           label="Email"
           name="email"
           type="email"
           autoComplete="username"
           required
         />
-        <FormInput label="Password" name="password" type="password" required />
+        <Form.Input label="Password" name="password" type="password" required />
         <FormSubmitButton css={submitButtonStyles} type="submit" fullWidth>
           Login
         </FormSubmitButton>
         <p css={errorStyles}>{authenticationError}</p>
+      </Form>
+      <Form onSubmit={(data) => console.log(data)}>
+        <Form.Input name="something" label="something" />
+        <FormSubmitButton>check</FormSubmitButton>
       </Form>
     </>
   );
@@ -174,22 +178,22 @@ function RegistrationForm() {
     <>
       <H2 css={headerStyles}>Register</H2>
       <Form onSubmit={handleSubmit} disabled={isAuthenticating}>
-        <FormInput label="Organization" name="orgName" required />
-        <FormInput
+        <Form.Input label="Organization" name="orgName" required />
+        <Form.Input
           label="Email"
           name="email"
           type="email"
           autoComplete="username"
           required
         />
-        <FormInput
+        <Form.Input
           label="Password"
           name="password"
           type="password"
           autoComplete="new-password"
           required
         />
-        <FormInput
+        <Form.Input
           label="Confirm Password"
           name="confirmPassword"
           type="password"

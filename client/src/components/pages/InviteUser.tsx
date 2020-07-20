@@ -1,6 +1,6 @@
 import { css } from "@emotion/core";
 import * as React from "react";
-import Form, { FormInput } from "../shared/Form";
+import Form from "../shared/Form";
 
 const InviteUser: React.FC<{}> = () => {
   const [isShowingPassword, setIsShowingPassword] = React.useState(false);
@@ -23,21 +23,21 @@ const InviteUser: React.FC<{}> = () => {
         `}
       >
         <Form onSubmit={onSubmit}>
-          <FormInput
+          <Form.Input
             type="text"
             name="username"
             label="Username"
             required="Username is required"
             minLength={2}
           />
-          <FormInput
+          <Form.Input
             type={isShowingPassword ? "text" : "password"}
             name="password"
             label="Password (must be minimum 8 characters)"
             required="Password is required"
             minLength={8}
           />
-          <FormInput
+          <Form.Input
             type={isShowingPassword ? "text" : "password"}
             name="password-confirm"
             label="Confirm Password"

@@ -1,6 +1,6 @@
 import { css } from "@emotion/core";
 import React from "react";
-import Form, { FormInput } from "../shared/Form";
+import Form from "../shared/Form";
 
 // const statesRegex = /^(?:(A[KLRZ]|C[AOT]|D[CE]|FL|GA|HI|I[ADLN]|K[SY]|LA|M[ADEINOST]|N[CDEHJMVY]|O[HKR]|P[AR]|RI|S[CD]|T[NX]|UT|V[AIT]|W[AIVY]))$/;
 
@@ -22,20 +22,20 @@ const EditOrg: React.FC<{}> = (props) => {
         `}
       >
         <Form onSubmit={onSubmit}>
-          <FormInput
+          <Form.Input
             type="text"
             name="organization"
             label="Organization name"
             required="Organization name is required."
           />
-          <FormInput
+          <Form.Input
             type="text"
             name="address1"
             label="Street address"
             required="Street address is required."
           />
-          <FormInput type="text" name="address2" label="Suite #, etc." />
-          <FormInput
+          <Form.Input type="text" name="address2" label="Suite #, etc." />
+          <Form.Input
             type="text"
             name="city"
             label="City"
@@ -55,7 +55,7 @@ const EditOrg: React.FC<{}> = (props) => {
             })}
             maxLength={2}
           /> */}
-          <FormInput
+          <Form.Input
             type="number"
             name="zip"
             label="ZIP code"
