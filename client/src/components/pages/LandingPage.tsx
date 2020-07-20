@@ -50,9 +50,17 @@ const LandingPage: React.FC<{}> = () => {
         >
           Exhibitionist
         </h1>
+        <p
+          css={css`
+            text-align: center;
+          `}
+        >
+          Blah blah blah
+        </p>
         <ul
           role="tablist"
           css={css`
+            margin-top: 2rem;
             display: flex;
             border-bottom: solid 1px black;
             > * {
@@ -131,7 +139,13 @@ function LoginForm() {
     <>
       <H2 css={headerStyles}>Login</H2>
       <Form onSubmit={handleSubmit} disabled={isAuthenticating}>
-        <FormInput label="Email" name="email" type="email" required />
+        <FormInput
+          label="Email"
+          name="email"
+          type="email"
+          autoComplete="username"
+          required
+        />
         <FormInput label="Password" name="password" type="password" required />
         <Button css={submitButtonStyles} type="submit" fullWidth>
           Login
@@ -147,20 +161,44 @@ interface RegistrationFormData extends LoginFormData {
 }
 
 function RegistrationForm() {
+  const { register, isAuthenticating, authenticationError } = useAuth();
+
   function handleSubmit(data: RegistrationFormData) {
-    console.log(data);
+    register(data);
   }
 
   return (
     <>
       <H2 css={headerStyles}>Register</H2>
-      <Form onSubmit={handleSubmit}>
+      <Form onSubmit={handleSubmit} disabled={isAuthenticating}>
         <FormInput label="Organization" name="orgName" required />
-        <FormInput label="Email" name="email" required />
-        <FormInput label="Password" name="password" required />
+        <FormInput
+          label="Email"
+          name="email"
+          type="email"
+          autoComplete="username"
+          required
+        />
+        <FormInput
+          label="Password"
+          name="password"
+          type="password"
+          autoComplete="new-password"
+          required
+        />
+        <FormInput
+          label="Confirm Password"
+          name="confirmPassword"
+          type="password"
+          autoComplete="new-password"
+          required
+          validate={(watch) => (value) =>
+            value === watch("password") || "Passwords must match!"}
+        />
         <Button css={submitButtonStyles} type="submit" fullWidth>
           Register
         </Button>
+        <p>{authenticationError}</p>
       </Form>
     </>
   );

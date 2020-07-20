@@ -7,10 +7,10 @@ const authRouter = express.Router();
 
 authRouter.post("/register", async (req, res) => {
   const {
-    body: { email, password, name },
+    body: { email, password, orgName },
   } = req;
 
-  if (!email || !password || !name) {
+  if (!email || !password || !orgName) {
     res.status(400).send();
   } else {
     try {
@@ -32,7 +32,7 @@ authRouter.post("/register", async (req, res) => {
           res.status(signInResponse.status);
           res.json(signInResponseData);
         } else {
-          const org = await createOrg(name);
+          const org = await createOrg(orgName);
           const createUserSuccess = await createUser(userId, org.id);
 
           if (createUserSuccess) {

@@ -81,7 +81,7 @@ export const FormInput: React.FC<FormInputProps> = ({
         validate: validate ? validate(watch) : undefined,
       })}
       required={required}
-      disabled={Boolean(disabled || formDisabled)}
+      disabled={disabled || formDisabled}
     />
   );
 };

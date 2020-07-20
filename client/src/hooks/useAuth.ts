@@ -26,6 +26,12 @@ export interface Credentials {
   password: string;
 }
 
+export interface RegistrationInfo {
+  orgName: string;
+  email: string;
+  password: string;
+}
+
 export interface Auth {
   isAuthenticated: boolean;
   isAuthenticating: boolean;
@@ -33,6 +39,7 @@ export interface Auth {
   token: string | null;
   logOut: () => void;
   logIn: (credentials: Credentials) => Promise<void>;
+  register: (info: RegistrationInfo) => Promise<void>;
 }
 
 export default function useAuth(): Auth {
@@ -89,6 +96,37 @@ export default function useAuth(): Auth {
     [setToken, setIsAuthenticating, setOrg, setAuthenticationError]
   );
 
+  const register = useCallback(
+    (info: RegistrationInfo) => {
+      setIsAuthenticating(true);
+      setAuthenticationError("");
+      return fetch(`${proxyUrl}/auth/register`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(info),
+      })
+        .then(async (res) => {
+          if (res.ok) return res.json();
+          throw await res.json();
+        })
+        .then(({ id_token, org }) => {
+          setToken(id_token);
+          setOrg(org);
+        })
+        .catch(({ error_description }) => {
+          setAuthenticationError(
+            error_description || "There was a problem authenticating."
+          );
+        })
+        .finally(() => {
+          setIsAuthenticating(false);
+        });
+    },
+    [setToken, setIsAuthenticating, setOrg, setAuthenticationError]
+  );
+
   const decodedToken = useMemo(() => {
     if (token) {
       try {
@@ -109,5 +147,6 @@ export default function useAuth(): Auth {
     token,
     logOut,
     logIn,
+    register,
   };
 }
