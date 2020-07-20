@@ -1,5 +1,6 @@
 import { css } from "@emotion/core";
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
+import { IoMdEye as EyeIcon, IoMdEyeOff as EyeOffIcon } from "react-icons/io";
 import { v4 as uuid } from "uuid";
 
 export interface InputProps {
@@ -15,19 +16,17 @@ export interface InputProps {
 
 const Input = React.forwardRef<HTMLInputElement, InputProps>(
   (
-    {
-      name,
-      label,
-      required,
-      error,
-      autoComplete,
-      disabled,
-      type = "text",
-      id = uuid(),
-    },
+    { name, label, required, error, autoComplete, disabled, type = "text", id },
     ref
   ) => {
     const [showPassword, setShowPassword] = useState(false);
+    const internalId = useMemo(() => uuid(), []);
+    const trueId = id || internalId;
+
+    function handleShowPasswordClick(e: React.MouseEvent) {
+      e.preventDefault();
+      setShowPassword(!showPassword);
+    }
 
     return (
       <div
@@ -36,17 +35,19 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
           flex-direction: column;
         `}
       >
-        <label htmlFor={id}>
+        <label htmlFor={trueId}>
           {label}
           {required ? " *" : ""}
         </label>
         <div
           css={css`
             display: flex;
+            flex-direction: row-reverse;
+            align-items: center;
           `}
         >
           <input
-            id={id}
+            id={trueId}
             css={css`
               flex-grow: 1;
             `}
@@ -57,29 +58,21 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
             disabled={disabled}
             required={Boolean(required)}
           />
-          {/* TODO: make pretty */}
           {type === "password" && (
-            <div
+            <button
               css={css`
-                display: flex;
-                align-items: center;
+                position: absolute;
+                background-color: transparent;
+                border: none;
+                &:focus {
+                  outline: none;
+                }
               `}
+              onClick={handleShowPasswordClick}
+              tabIndex={-1}
             >
-              <input
-                id={`${id}-show`}
-                type="checkbox"
-                checked={showPassword}
-                onChange={() => setShowPassword(!showPassword)}
-              />
-              <label
-                htmlFor={`${id}-show`}
-                css={css`
-                  user-select: none;
-                `}
-              >
-                Show
-              </label>
-            </div>
+              {showPassword ? <EyeOffIcon /> : <EyeIcon />}
+            </button>
           )}
         </div>
         <p

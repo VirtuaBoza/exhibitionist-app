@@ -7,4 +7,9 @@ export default {
 };
 
 export const Default = () => <Input name="name" label="Name" />;
+
 export const WithError = () => <Input name="name" label="Name" error="error" />;
+
+export const Password = () => (
+  <Input name="password" label="Password" type="password" />
+);
