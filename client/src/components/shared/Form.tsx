@@ -24,6 +24,7 @@ export interface FormProps<T> {
 
 interface MyForm extends React.FC<FormProps<any>> {
   Input: React.FC<FormInputProps>;
+  Submit: React.FC<ButtonProps>;
 }
 
 const Form: MyForm = ({
@@ -91,14 +92,13 @@ const FormInput: React.FC<FormInputProps> = ({
   );
 };
 
-export const FormSubmitButton: React.FC<ButtonProps> = ({
-  disabled,
-  ...rest
-}) => {
+Form.Input = FormInput;
+
+const FormSubmitButton: React.FC<ButtonProps> = ({ disabled, ...rest }) => {
   const { disabled: formDisabled } = useContext(FormContext);
   return <Button {...rest} type="submit" disabled={disabled || formDisabled} />;
 };
 
-Form.Input = FormInput;
+Form.Submit = FormSubmitButton;
 
 export default Form;

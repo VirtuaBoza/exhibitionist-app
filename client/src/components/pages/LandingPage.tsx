@@ -1,7 +1,7 @@
 import { css } from "@emotion/core";
 import React from "react";
 import { useAuth, useTabs } from "../../hooks";
-import Form, { FormSubmitButton } from "../shared/Form";
+import Form from "../shared/Form";
 import { H2 } from "../shared/Headings";
 
 const tabs = [
@@ -150,14 +150,10 @@ function LoginForm() {
           required
         />
         <Form.Input label="Password" name="password" type="password" required />
-        <FormSubmitButton css={submitButtonStyles} type="submit" fullWidth>
+        <Form.Submit css={submitButtonStyles} type="submit" fullWidth>
           Login
-        </FormSubmitButton>
+        </Form.Submit>
         <p css={errorStyles}>{authenticationError}</p>
-      </Form>
-      <Form onSubmit={(data) => console.log(data)}>
-        <Form.Input name="something" label="something" />
-        <FormSubmitButton>check</FormSubmitButton>
       </Form>
     </>
   );
@@ -202,9 +198,9 @@ function RegistrationForm() {
           validate={(watch) => (value) =>
             value === watch("password") || "Passwords must match!"}
         />
-        <FormSubmitButton css={submitButtonStyles} type="submit" fullWidth>
+        <Form.Submit css={submitButtonStyles} type="submit" fullWidth>
           Register
-        </FormSubmitButton>
+        </Form.Submit>
         <p css={errorStyles}>{authenticationError}</p>
       </Form>
     </>
