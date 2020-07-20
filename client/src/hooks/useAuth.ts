@@ -115,9 +115,9 @@ export default function useAuth(): Auth {
           setToken(id_token);
           setOrg(org);
         })
-        .catch(({ error_description }) => {
+        .catch(({ message }) => {
           setAuthenticationError(
-            error_description || "There was a problem authenticating."
+            message || "There was a problem with registration."
           );
         })
         .finally(() => {

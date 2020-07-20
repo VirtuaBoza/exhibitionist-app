@@ -1,7 +1,7 @@
 import fetch from "node-fetch";
 
 export function signUpUser(email: string, password: string) {
-  return fetch("https://exhibitionist-dev.us.auth0.com/dbconnections/signup", {
+  return fetch(`${process.env.AUTH0_URL}/dbconnections/signup`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -16,7 +16,7 @@ export function signUpUser(email: string, password: string) {
 }
 
 export function signInUser(email: string, password: string) {
-  return fetch("https://exhibitionist-dev.us.auth0.com/oauth/token", {
+  return fetch(`${process.env.AUTH0_URL}/oauth/token`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -28,4 +28,48 @@ export function signInUser(email: string, password: string) {
       password,
     }),
   });
+}
+
+export async function checkUserExists(email: string): Promise<boolean> {
+  console.log("hi");
+  const tokenData = await fetch(`${process.env.AUTH0_URL}/oauth/token`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      grant_type: "client_credentials",
+      client_id: process.env.AUTH0_PROXY_CLIENT_ID,
+      client_secret: process.env.AUTH0_PROXY_CLIENT_SECRET,
+      audience: `${process.env.AUTH0_URL}/api/v2/`,
+    }),
+  })
+    .then((res) => {
+      console.log(res);
+      return res.json();
+    })
+    .catch((err) => {
+      console.log(err);
+      throw err;
+    });
+
+  console.log("hello");
+
+  const res = await fetch(
+    `${
+      process.env.AUTH0_URL
+    }/api/v2/users-by-email?email=${email.toLocaleLowerCase()}`,
+    {
+      headers: {
+        "Content-Type": "application/json",
+        authorization: `Bearer ${tokenData.access_token}`,
+      },
+    }
+  );
+
+  if (!res.ok) throw res;
+
+  const body = await res.json();
+
+  return body.length;
 }

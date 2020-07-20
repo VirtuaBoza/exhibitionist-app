@@ -1,6 +1,6 @@
 import express from "express";
 import jwtDecode from "jwt-decode";
-import { signInUser, signUpUser } from "../services/auth0";
+import { checkUserExists, signInUser, signUpUser } from "../services/auth0";
 import { createOrg, createUser, getUserOrgData } from "../services/db";
 
 const authRouter = express.Router();
@@ -14,31 +14,36 @@ authRouter.post("/register", async (req, res) => {
     res.status(400).send();
   } else {
     try {
-      const signUpResponse = await signUpUser(email, password);
-
-      const signUpResponseData = await signUpResponse.json();
-
-      if (!signUpResponse.ok) {
-        res.status(signUpResponse.status);
-        res.json(signUpResponseData);
+      const userExists = await checkUserExists(email);
+      if (userExists) {
+        res.status(400).send({ message: "Email already taken." });
       } else {
-        const { _id: userId } = signUpResponseData;
-        const signInResponse = await signInUser(email, password);
+        const signUpResponse = await signUpUser(email, password);
 
-        const signInResponseData = await signInResponse.json();
+        const signUpResponseData = await signUpResponse.json();
 
-        if (!signInResponse.ok) {
-          // TODO: Undo sign-up???
-          res.status(signInResponse.status);
-          res.json(signInResponseData);
+        if (!signUpResponse.ok) {
+          res.status(signUpResponse.status);
+          res.json(signUpResponseData);
         } else {
-          const org = await createOrg(orgName);
-          const createUserSuccess = await createUser(userId, org.id);
+          const { _id: userId } = signUpResponseData;
+          const signInResponse = await signInUser(email, password);
 
-          if (createUserSuccess) {
-            res.json({ ...signInResponseData, org });
+          const signInResponseData = await signInResponse.json();
+
+          if (!signInResponse.ok) {
+            // TODO: Undo sign-up???
+            res.status(signInResponse.status);
+            res.json(signInResponseData);
           } else {
-            res.status(500).send();
+            const org = await createOrg(orgName);
+            const createUserSuccess = await createUser(userId, org.id);
+
+            if (createUserSuccess) {
+              res.json({ ...signInResponseData, org });
+            } else {
+              res.status(500).send();
+            }
           }
         }
       }

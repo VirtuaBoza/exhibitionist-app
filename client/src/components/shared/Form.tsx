@@ -1,6 +1,7 @@
 import { ErrorMessage } from "@hookform/error-message";
 import React, { useContext } from "react";
 import { useForm } from "react-hook-form";
+import Button, { ButtonProps } from "./Button/Button";
 import Input from "./Input";
 import { InputProps } from "./Input/Input";
 
@@ -84,6 +85,14 @@ export const FormInput: React.FC<FormInputProps> = ({
       disabled={disabled || formDisabled}
     />
   );
+};
+
+export const FormSubmitButton: React.FC<ButtonProps> = ({
+  disabled,
+  ...rest
+}) => {
+  const { disabled: formDisabled } = useContext(FormContext);
+  return <Button {...rest} type="submit" disabled={disabled || formDisabled} />;
 };
 
 export default Form;

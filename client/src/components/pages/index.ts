@@ -5,5 +5,4 @@ export { default as EditOrg } from "./EditOrg";
 export { default as Home } from "./Home";
 export { default as InviteUser } from "./InviteUser";
 export { default as LandingPage } from "./LandingPage";
-export { default as Login } from "./Login";
 export { default as NotFound } from "./NotFound";

@@ -3,7 +3,6 @@ import { BrowserRouter, Route, Switch } from "react-router-dom";
 import {
   Assets,
   LandingPage,
-  // Login,
   // RegisterOrg,
   // RegisterUser,
   NotFound,
@@ -30,9 +29,6 @@ function App() {
         <Route path={routes.RegisterUser}>
           <RegisterUser />
         </Route>
-        <UnauthenticatedOnlyRoute path={routes.Login}>
-          <Login />
-        </UnauthenticatedOnlyRoute>
         <AuthenticatedRoute path={routes.Assets}>
           <Assets />
         </AuthenticatedRoute> */}

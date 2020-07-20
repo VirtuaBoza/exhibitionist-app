@@ -1,7 +1,7 @@
 import { css } from "@emotion/core";
 import * as React from "react";
 
-interface ButtonProps extends React.ComponentProps<"button"> {
+export interface ButtonProps extends React.ComponentProps<"button"> {
   fullWidth?: boolean;
 }
 

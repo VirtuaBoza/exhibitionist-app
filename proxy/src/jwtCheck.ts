@@ -6,10 +6,10 @@ const jwtCheck = jwt({
     cache: true,
     rateLimit: true,
     jwksRequestsPerMinute: 5,
-    jwksUri: "https://exhibitionist-dev.us.auth0.com/.well-known/jwks.json",
+    jwksUri: `${process.env.AUTH0_URL}/.well-known/jwks.json`,
   }),
   audience: process.env.AUTH0_CLIENT_ID,
-  issuer: "https://exhibitionist-dev.us.auth0.com/",
+  issuer: process.env.AUTH0_URL,
   algorithms: ["RS256"],
 });
 
