@@ -15,6 +15,7 @@ interface FormContextValue {
 export const FormContext = React.createContext<FormContextValue>(
   {} as FormContextValue
 );
+FormContext.displayName = "FormContext";
 
 export interface FormProps<T> {
   defaultValues?: T;
